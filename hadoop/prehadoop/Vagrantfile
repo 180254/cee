@@ -9,8 +9,15 @@ boxes = [
         :mem  => "1024",
         :cpu  => "2",
         :files => [
+            {
+                :src => "files/",
+                :dst => "/home/vagrant/"
+            }
         ],
         :shells => [
+            "shells/apt.sh",
+            "shells/gethadoop.sh",
+            "shells/done.sh",
         ],
         :ports_forward => [
         ]
