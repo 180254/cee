@@ -1,5 +1,5 @@
 .vagrant/
 *.tar.gz
 .DS_Store
-lists/
-archives/
+**/lists/*trusty*
+**/archives/*.deb
