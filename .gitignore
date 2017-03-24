@@ -1,4 +1,5 @@
 .vagrant/
 *.tar.gz
 .DS_Store
-
+lists/
+archives/

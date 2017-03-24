@@ -1,9 +1,8 @@
 #!/bin/bash
 
-echo "------- SHELL APT -------"
+echo "------- shell apt -------"
 
-export DEBIAN_FRONTEND=noninteractive
+mv /home/vagrant/archives/*  /var/cache/apt/archives/
 
-apt-get update
-apt-get install -y rsync ssh
+apt-get install -y rsync ssh openjdk-8-jre dsh htop
 

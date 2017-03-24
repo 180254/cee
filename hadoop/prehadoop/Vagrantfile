@@ -9,27 +9,32 @@ boxes = [
         :mem  => "1024",
         :cpu  => "2",
         :files => [
-            {
-                :src => "files/",
-                :dst => "/home/vagrant/"
-            }
+            { :src => "files/lists/",     :dst => "/home/vagrant/" },
+            { :src => "files/archives/",  :dst => "/home/vagrant/" },
+            { :src => "files/hadoop/",    :dst => "/home/vagrant/" },
+            { :src => "files/resources/", :dst => "/home/vagrant/" },
+            { :src => "files/system/",    :dst => "/home/vagrant/" }
         ],
         :shells => [
+            "shells/start.sh",
+            "shells/aptupdate.sh",
             "shells/apt.sh",
             "shells/gethadoop.sh",
-            "shells/done.sh",
+            "shells/ssh.sh",
+            "shells/generic.sh",
+            "shells/done.sh"
         ],
         :ports_forward => [
         ]
     }
 ]
 
-
 Vagrant.configure(2) do |config|
     boxes.each do |opts|
 
         config.vm.define opts[:name] do |config|
             config.vbguest.auto_update = false
+            config.vbguest.no_remote = true
 
             config.vm.provider "virtualbox" do |v, override|
                 override.vm.box = opts[:box]
