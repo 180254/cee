@@ -1,9 +1,8 @@
 #!/bin/bash
 
-echo "------- shell gethadoop -------"
+echo "------- shell gethadoop [get] -------"
 
-if [[ $(hostname) == "hadoop-master" ]]
-then
+if [[ $(hostname) == "hadoop-master" ]]; then
     rm -rf /usr/local/hadoop
 
     targz=/home/vagrant/resources/hadoop-2.6.4.tar.gz
@@ -21,13 +20,40 @@ then
     mv hadoop-2.6.4 hadoop
     chown vagrant:vagrant -R /usr/local/hadoop
 
-    mv /home/vagrant/hadoop/* /usr/local/hadoop/etc/hadoop/
-
 else
-    scp -r vagrant@hadoop-master:/usr/local/hadoop /home/vagrant/hadoop
     rm -rf /usr/local/hadoop
-    mv /home/vagrant/hadoop /usr/local/
+    scp -r vagrant@hadoop-master:/usr/local/hadoop /usr/local/hadoop
     chown vagrant:vagrant -R /usr/local/hadoop
 
 fi
+
+echo "------- shell gethadoop [conf] -------"
+
+HADOOP_HOME=/usr/local/hadoop
+JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
+echo "export JAVA_HOME=${JAVA_HOME}" >> ${HADOOP_HOME}/etc/hadoop/hadoop-env.sh
+
+mv /home/vagrant/hadoop/* /usr/local/hadoop/etc/hadoop/
+
+mkdir -p /home/vagrant/tmp
+mkdir -p /home/vagrant/hadoop/yarn_data/hdfs/namenode
+mkdir -p /home/vagrant/hadoop/yarn_data/hdfs/datanode
+
+chown vagrant:vagrant /home/vagrant/tmp
+chown vagrant:vagrant /home/vagrant/hadoop/yarn_data/hdfs/namenode
+chown vagrant:vagrant /home/vagrant/hadoop/yarn_data/hdfs/datanode
+
+echo "------- shell gethadoop [start] -------"
+
+if [[ $(hostname) == "hadoop-master" ]]; then
+    /usr/local/hadoop/bin/hdfs namenode -format
+    /usr/local/hadoop/sbin/start-dfs.sh
+    /usr/local/hadoop/sbin/start-yarn.sh
+
+    /usr/local/hadoop/bin/hdfs dfs -mkdir /user
+    /usr/local/hadoop/bin/hdfs dfs -mkdir /user/vagrant
+fi
+
+jps
+
 

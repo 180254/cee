@@ -1,0 +1,12 @@
+<configuration>
+    <property>
+        <name>mapreduce.jobtracker.address</name>
+        <value>hadoop-master:54311</value>
+    </property>
+
+    <property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+    </property>
+</configuration>
+

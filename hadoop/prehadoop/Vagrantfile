@@ -6,7 +6,7 @@ boxes = [
         :name => "hadoop-master",
         :box  => "ubuntu/trusty64",
         :eth1 => "192.168.5.10",
-        :mem  => "1024",
+        :mem  => "1536",
         :cpu  => "2",
         :files => [
             { :src => "files/lists/",     :dst => "/home/vagrant/" },
@@ -16,12 +16,42 @@ boxes = [
             { :src => "files/system/",    :dst => "/home/vagrant/" }
         ],
         :shells => [
-            "shells/start.sh",
             "shells/aptupdate.sh",
             "shells/apt.sh",
-            "shells/gethadoop.sh",
-            "shells/ssh.sh",
             "shells/generic.sh",
+            "shells/ssh.sh",
+            "shells/gethadoop.sh",
+            "shells/done.sh"
+        ],
+        :ports_forward => [
+            { :guest => "54310", :host => "54310" },
+            { :guest => "54311", :host => "54311" },
+            { :guest => "8030",  :host => "8030"  },
+            { :guest => "8031",  :host => "8031"  },
+            { :guest => "8032",  :host => "8032"  },
+            { :guest => "8033",  :host => "8033"  },
+            { :guest => "8088",  :host => "8088"  }
+        ]
+    },
+    {
+        :name => "hadoop-slave1",
+        :box  => "ubuntu/trusty64",
+        :eth1 => "192.168.5.11",
+        :mem  => "1536",
+        :cpu  => "2",
+        :files => [
+            { :src => "files/lists/",     :dst => "/home/vagrant/" },
+            { :src => "files/archives/",  :dst => "/home/vagrant/" },
+            { :src => "files/hadoop/",    :dst => "/home/vagrant/" },
+            { :src => "files/resources/", :dst => "/home/vagrant/" },
+            { :src => "files/system/",    :dst => "/home/vagrant/" }
+        ],
+        :shells => [
+            "shells/aptupdate.sh",
+            "shells/apt.sh",
+            "shells/generic.sh",
+            "shells/ssh.sh",
+            "shells/gethadoop.sh",
             "shells/done.sh"
         ],
         :ports_forward => [
@@ -33,8 +63,10 @@ Vagrant.configure(2) do |config|
     boxes.each do |opts|
 
         config.vm.define opts[:name] do |config|
+            config.vm.boot_timeout = 600
             config.vbguest.auto_update = false
             config.vbguest.no_remote = true
+            config.ssh.insert_key = false
 
             config.vm.provider "virtualbox" do |v, override|
                 override.vm.box = opts[:box]
