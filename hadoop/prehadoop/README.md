@@ -23,6 +23,6 @@ To be installed on host:
 - Vagrant plugin: vagrant-vbguest (vagrant plugin install vagrant-vbguest)
   
 ### Notepad
-Useful notes:
-https://hadoop.apache.org/docs/r2.6.4/hadoop-project-dist/hadoop-common/SingleCluster.html
-https://www.aerospike.com/docs/connectors/ashadoop/handson/hadoopClusterSetup.html
+Useful notes:  
+https://hadoop.apache.org/docs/r2.6.4/hadoop-project-dist/hadoop-common/SingleCluster.html  
+https://www.aerospike.com/docs/connectors/ashadoop/handson/hadoopClusterSetup.html  
