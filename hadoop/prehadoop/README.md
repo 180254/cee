@@ -14,6 +14,7 @@
 | files/resources/ | other cache resources, supported files: hadoop-2.6.4.tar.gz | will speed up configuring, if file is available
 | files/hadoop/ | hadoop configuration files |
 | files/system/ | system configuration files |
+| files/system/{id_rsa, id_rsa.pub} | ssh key used in vms | do NOT use this key anywhere, it is only for this educational task
   
 ### Requirements:
 To be installed on host:
