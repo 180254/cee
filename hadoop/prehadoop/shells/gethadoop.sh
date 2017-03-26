@@ -41,4 +41,3 @@ chown vagrant:vagrant /home/vagrant/tmp
 chown vagrant:vagrant /home/vagrant/hadoop/yarn_data/hdfs/namenode
 chown vagrant:vagrant /home/vagrant/hadoop/yarn_data/hdfs/datanode
 
-
