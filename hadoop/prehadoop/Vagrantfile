@@ -24,14 +24,14 @@ boxes = [
             "shells/done.sh",
         ],
         :ports_forward => [
-            { :guest => "8030",  :host => "8030"  },
-            { :guest => "8031",  :host => "8031"  },
-            { :guest => "8032",  :host => "8032"  },
-            { :guest => "8033",  :host => "8033"  },
-            { :guest => "8088",  :host => "8088"  },
-            { :guest => "50070", :host => "50070" },
-            { :guest => "54310", :host => "54310" },
-            { :guest => "54311", :host => "54311" },
+            { :guest => "54310", :host => "54310" }, # fs.defaultFS
+            { :guest => "54311", :host => "54311" }, # mapreduce.jobtracker.address
+            { :guest => "8030",  :host => "8030"  }, # yarn.resourcemanager.scheduler.address
+            { :guest => "8032",  :host => "8032"  }, # yarn.resourcemanager.address
+            { :guest => "8088",  :host => "8088"  }, # yarn.resourcemanager.webapp.address
+            { :guest => "8031",  :host => "8031"  }, # yarn.resourcemanager.resource-tracker.address
+            { :guest => "8033",  :host => "8033"  }, # yarn.resourcemanager.admin.address
+            { :guest => "50070", :host => "50070" }, # dfs.namenode.http-address
         ]
     },
     {

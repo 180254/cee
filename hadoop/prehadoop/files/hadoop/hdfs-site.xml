@@ -2,16 +2,19 @@
     <property>
         <name>dfs.replication</name>
         <value>2</value>
+        <description>Default block replication</description>
     </property>
 
     <property>
         <name>dfs.namenode.name.dir</name>
         <value>file:/home/vagrant/hadoop/yarn_data/hdfs/namenode</value>
+        <description>Directory for storing metadata by namenode</description>
     </property>
 
     <property>
         <name>dfs.datanode.data.dir</name>
         <value>file:/home/vagrant/hadoop/yarn_data/hdfs/datanode</value>
+        <description>Directory for storing blocks by datanode</description>
     </property>
 </configuration>
 

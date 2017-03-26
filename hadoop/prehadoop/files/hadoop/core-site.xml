@@ -2,11 +2,13 @@
     <property>
         <name>hadoop.tmp.dir</name>
         <value>/home/vagrant/tmp</value>
+        <description>Temporary Directory.</description>
     </property>
 
     <property>
         <name>fs.defaultFS</name>
         <value>hdfs://hadoop-master:54310</value>
+        <description>Use HDFS as file storage engine</description>
     </property>
 </configuration>
 

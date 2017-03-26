@@ -2,11 +2,17 @@
     <property>
         <name>mapreduce.jobtracker.address</name>
         <value>hadoop-master:54311</value>
+         <description>
+            The host and port that the MapReduce job tracker runs
+            at. If “local”, then jobs are run in-process as a single map
+            and reduce task.
+        </description>
     </property>
 
     <property>
         <name>mapreduce.framework.name</name>
         <value>yarn</value>
+        <description>The framework for running mapreduce jobs</description>
     </property>
 </configuration>
 
