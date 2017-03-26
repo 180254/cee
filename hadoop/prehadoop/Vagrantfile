@@ -13,7 +13,7 @@ boxes = [
             { :src => "files/archives/",  :dst => "/home/vagrant/" },
             { :src => "files/hadoop/",    :dst => "/home/vagrant/" },
             { :src => "files/resources/", :dst => "/home/vagrant/" },
-            { :src => "files/system/",    :dst => "/home/vagrant/" }
+            { :src => "files/system/",    :dst => "/home/vagrant/" },
         ],
         :shells => [
             "shells/aptupdate.sh",
@@ -21,16 +21,17 @@ boxes = [
             "shells/generic.sh",
             "shells/ssh.sh",
             "shells/gethadoop.sh",
-            "shells/done.sh"
+            "shells/done.sh",
         ],
         :ports_forward => [
-            { :guest => "54310", :host => "54310" },
-            { :guest => "54311", :host => "54311" },
             { :guest => "8030",  :host => "8030"  },
             { :guest => "8031",  :host => "8031"  },
             { :guest => "8032",  :host => "8032"  },
             { :guest => "8033",  :host => "8033"  },
-            { :guest => "8088",  :host => "8088"  }
+            { :guest => "8088",  :host => "8088"  },
+            { :guest => "50070", :host => "50070" },
+            { :guest => "54310", :host => "54310" },
+            { :guest => "54311", :host => "54311" },
         ]
     },
     {
@@ -44,7 +45,7 @@ boxes = [
             { :src => "files/archives/",  :dst => "/home/vagrant/" },
             { :src => "files/hadoop/",    :dst => "/home/vagrant/" },
             { :src => "files/resources/", :dst => "/home/vagrant/" },
-            { :src => "files/system/",    :dst => "/home/vagrant/" }
+            { :src => "files/system/",    :dst => "/home/vagrant/" },
         ],
         :shells => [
             "shells/aptupdate.sh",
@@ -52,7 +53,7 @@ boxes = [
             "shells/generic.sh",
             "shells/ssh.sh",
             "shells/gethadoop.sh",
-            "shells/done.sh"
+            "shells/done.sh",
         ],
         :ports_forward => [
         ]

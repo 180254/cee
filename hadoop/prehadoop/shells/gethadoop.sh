@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "------- shell gethadoop [get] -------"
+echo "------- shell gethadoop -------"
 
 if [[ $(hostname) == "hadoop-master" ]]; then
     rm -rf /usr/local/hadoop
@@ -27,8 +27,6 @@ else
 
 fi
 
-echo "------- shell gethadoop [conf] -------"
-
 HADOOP_HOME=/usr/local/hadoop
 JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:bin/java::")
 echo "export JAVA_HOME=${JAVA_HOME}" >> ${HADOOP_HOME}/etc/hadoop/hadoop-env.sh
@@ -42,18 +40,5 @@ mkdir -p /home/vagrant/hadoop/yarn_data/hdfs/datanode
 chown vagrant:vagrant /home/vagrant/tmp
 chown vagrant:vagrant /home/vagrant/hadoop/yarn_data/hdfs/namenode
 chown vagrant:vagrant /home/vagrant/hadoop/yarn_data/hdfs/datanode
-
-echo "------- shell gethadoop [start] -------"
-
-if [[ $(hostname) == "hadoop-master" ]]; then
-    /usr/local/hadoop/bin/hdfs namenode -format
-    /usr/local/hadoop/sbin/start-dfs.sh
-    /usr/local/hadoop/sbin/start-yarn.sh
-
-    /usr/local/hadoop/bin/hdfs dfs -mkdir /user
-    /usr/local/hadoop/bin/hdfs dfs -mkdir /user/vagrant
-fi
-
-jps
 
 
