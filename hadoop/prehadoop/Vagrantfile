@@ -21,6 +21,7 @@ boxes = [
             "shells/generic.sh",
             "shells/ssh.sh",
             "shells/gethadoop.sh",
+            "shells/monitoring.sh",
             "shells/done.sh",
         ],
         :ports_forward => [
@@ -32,6 +33,7 @@ boxes = [
             { :guest => "8031",  :host => "8031"  }, # yarn.resourcemanager.resource-tracker.address
             { :guest => "8033",  :host => "8033"  }, # yarn.resourcemanager.admin.address
             { :guest => "50070", :host => "50070" }, # dfs.namenode.http-address
+            { :guest => "3000", :host => "3000" }, # grafana
         ]
     },
     {
@@ -53,6 +55,7 @@ boxes = [
             "shells/generic.sh",
             "shells/ssh.sh",
             "shells/gethadoop.sh",
+            "shells/monitoring.sh",
             "shells/done.sh",
         ],
         :ports_forward => [
