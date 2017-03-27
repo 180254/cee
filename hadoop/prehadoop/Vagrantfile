@@ -33,13 +33,38 @@ boxes = [
             { :guest => "8031",  :host => "8031"  }, # yarn.resourcemanager.resource-tracker.address
             { :guest => "8033",  :host => "8033"  }, # yarn.resourcemanager.admin.address
             { :guest => "50070", :host => "50070" }, # dfs.namenode.http-address
-            { :guest => "3000", :host => "3000" }, # grafana
+            { :guest => "3000",  :host => "3000"  }, # grafana
         ]
     },
     {
         :name => "hadoop-slave1",
         :box  => "ubuntu/trusty64",
         :eth1 => "192.168.5.11",
+        :mem  => "1536",
+        :cpu  => "2",
+        :files => [
+            { :src => "files/lists/",     :dst => "/home/vagrant/" },
+            { :src => "files/archives/",  :dst => "/home/vagrant/" },
+            { :src => "files/hadoop/",    :dst => "/home/vagrant/" },
+            { :src => "files/resources/", :dst => "/home/vagrant/" },
+            { :src => "files/system/",    :dst => "/home/vagrant/" },
+        ],
+        :shells => [
+            "shells/aptupdate.sh",
+            "shells/apt.sh",
+            "shells/generic.sh",
+            "shells/ssh.sh",
+            "shells/gethadoop.sh",
+            "shells/monitoring.sh",
+            "shells/done.sh",
+        ],
+        :ports_forward => [
+        ]
+    },
+    {
+        :name => "hadoop-slave2",
+        :box  => "ubuntu/trusty64",
+        :eth1 => "192.168.5.12",
         :mem  => "1536",
         :cpu  => "2",
         :files => [

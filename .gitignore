@@ -1,5 +1,8 @@
 .vagrant/
 *.tar.gz
+*.tar
 .DS_Store
 **/lists/*trusty*
 **/archives/*.deb
+!monitoring.tar
+
