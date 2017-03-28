@@ -13,4 +13,3 @@ mv  /home/vagrant/system/slaves     /etc/dsh/group/slaves
 groupadd supergroup
 usermod -a -G supergroup root
 usermod -a -G supergroup vagrant
-

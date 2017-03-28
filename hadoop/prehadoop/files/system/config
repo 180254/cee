@@ -1,3 +1,2 @@
 Host localhost 0.0.0.0 hadoop-*
     StrictHostKeyChecking no
-

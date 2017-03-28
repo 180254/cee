@@ -11,4 +11,3 @@
         <description>Use HDFS as file storage engine</description>
     </property>
 </configuration>
-

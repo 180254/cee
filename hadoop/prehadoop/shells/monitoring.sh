@@ -16,4 +16,3 @@ cd monitoring
 sh install.sh
 
 rm -rf /home/vagrant/monitoring*
-

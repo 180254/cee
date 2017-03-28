@@ -17,4 +17,3 @@
         <description>Directory for storing blocks by datanode</description>
     </property>
 </configuration>
-
