@@ -111,7 +111,7 @@ Vagrant.configure(2) do |config|
             config.vm.network :private_network, ip: opts[:eth1]
 
             opts[:ports_forward].each do |item|
-                config.vm.network "forwarded_port", guest: item[:guest], host: item[:host]
+                config.vm.network "forwarded_port", guest: item[:guest], host: item[:host], host_ip: "127.0.0.1"
             end
 
             opts[:files].each do |fileitem|
@@ -127,4 +127,3 @@ Vagrant.configure(2) do |config|
         end
     end
 end
-

@@ -5,14 +5,10 @@ echo "------- shell gethadoop -------"
 if [[ $(hostname) == "hadoop-master" ]]; then
     rm -rf /usr/local/hadoop
 
-    targz=/home/vagrant/resources/hadoop-2.6.4.tar.gz
-
-    if [ -f $targz ]; then
-        mv $targz /usr/local/
+    if [ -f /home/vagrant/resources/hadoop-2.6.4.tar.gz ]; then
+        mv /home/vagrant/resources/hadoop-2.6.4.tar.gz /usr/local/
     else
-      wget "http://ftp.piotrkosoft.net/pub/mirrors/"`
-            `"ftp.apache.org/hadoop/common/hadoop-2.6.4/hadoop-2.6.4.tar.gz" \
-            -P /usr/local
+      wget "http://ftp.piotrkosoft.net/pub/mirrors/ftp.apache.org/hadoop/common/hadoop-2.6.4/hadoop-2.6.4.tar.gz" -P /usr/local
     fi
 
     cd /usr/local/
@@ -40,4 +36,3 @@ mkdir -p /home/vagrant/hadoop/yarn_data/hdfs/datanode
 chown vagrant:vagrant /home/vagrant/tmp
 chown vagrant:vagrant /home/vagrant/hadoop/yarn_data/hdfs/namenode
 chown vagrant:vagrant /home/vagrant/hadoop/yarn_data/hdfs/datanode
-
