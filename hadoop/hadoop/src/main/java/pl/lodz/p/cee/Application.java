@@ -23,9 +23,9 @@ public class Application {
 
         job.setJarByClass(Application.class);
 
-        job.setPartitionerClass(NaturalKeyPartitioner.class);
-        job.setGroupingComparatorClass(NaturalKeyGroupingComparator.class);
-        job.setSortComparatorClass(CompositeKeyComparator.class);
+        job.setPartitionerClass(MyPartitioner.class);
+        job.setGroupingComparatorClass(MyGroupingComparator.class);
+        job.setSortComparatorClass(MySortComparator.class);
 
         job.setMapOutputKeyClass(StockKey.class);
         job.setMapOutputValueClass(IntWritable.class);
@@ -36,8 +36,8 @@ public class Application {
         job.setInputFormatClass(TextInputFormat.class);
         job.setOutputFormatClass(TextOutputFormat.class);
 
-        job.setMapperClass(EntropyMapper.class);
-        job.setReducerClass(SingleIntegerReducer.class);
+        job.setMapperClass(MyMapper.class);
+        job.setReducerClass(MyReducer.class);
 
         FileInputFormat.addInputPath(job, new Path("/user/vagrant/input/")); // existing HDFS directory
         FileOutputFormat.setOutputPath(job, new Path("/user/vagrant/output/" + System.currentTimeMillis() +"/")); // not existing HDFS directory

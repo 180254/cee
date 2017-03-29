@@ -9,7 +9,7 @@ import pl.lodz.p.cee.entropy.EntropyCalculatorImpl;
 
 import java.io.IOException;
 
-public class EntropyMapper extends Mapper<Object, Text, StockKey, IntWritable> {
+public class MyMapper extends Mapper<Object, Text, StockKey, IntWritable> {
 
     private final EntropyCalculator ec = new EntropyCalculatorImpl(
             new DistanceCalculatorImpl()
