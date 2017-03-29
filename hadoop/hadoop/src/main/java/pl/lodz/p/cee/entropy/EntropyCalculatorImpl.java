@@ -33,7 +33,7 @@ public class EntropyCalculatorImpl implements EntropyCalculator {
 
     /**
      * @param password password to be checked
-     * @return int, range 0 (inclusive) to 512 (exclusive)
+     * @return int, range 0 (inclusive) to INT_MAX
      */
     @Override
     public int compute(String password) {
@@ -48,7 +48,11 @@ public class EntropyCalculatorImpl implements EntropyCalculator {
                 .mapToDouble(i -> ds.distance(password.charAt(i), password.charAt(i - 1)))
                 .average().orElse(1);
 
-        double magic = letters * Math.sqrt(1.0 * unique / letters) * praise[tests] * (distance / 3);
-        return Math.min((int) magic, 511);
+        return (int) (
+                letters
+                        * Math.sqrt(1.0 * unique / letters)
+                        * praise[tests]
+                        * Math.max(distance, 1)
+        );
     }
 }

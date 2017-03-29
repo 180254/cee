@@ -11,12 +11,21 @@ import java.io.IOException;
 
 public class IndexHandler extends AbstractHandler {
 
-    private final HandlerHelper handlerHelper = new HandlerHelper();
+    private final HandlerHelper handlerHelper;
+
+    public IndexHandler(HandlerHelper handlerHelper) {
+        this.handlerHelper = handlerHelper;
+    }
 
     @Override
     public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
-        handlerHelper.serveResource(baseRequest, response, "index.html");
+        String resource = handlerHelper.resource("index.html");
+
+        baseRequest.setHandled(true);
+        response.setContentType("text/html; charset=utf-8");
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.getWriter().write(resource);
     }
 }

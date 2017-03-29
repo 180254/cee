@@ -4,13 +4,20 @@
 <head>
     <meta charset="UTF-8"/>
     <title>PasswordEntropy/start</title>
+    <style>
+        body {
+            font-family: Tahoma, Geneva, sans-serif;
+            font-size: 18pt;
+            margin: 2em;
+        }
+    </style>
 </head>
 
 <body>
 
 <form action="/start" method="post" enctype="multipart/form-data">
-    input file:
-    <input type="file" name="file" id="file">
+    <label for="file">File with passwords to be processed:</label><br/>
+    <input type="file" name="file" id="file" value="Browse ...">
     <input type="submit" value="Submit task" name="submit">
 </form>
 

@@ -5,7 +5,9 @@ import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
+import pl.lodz.p.cee.hadoop.HadoopHelper;
 import pl.lodz.p.cee.handler.GetResultHandler;
+import pl.lodz.p.cee.handler.HandlerHelper;
 import pl.lodz.p.cee.handler.IndexHandler;
 import pl.lodz.p.cee.handler.StartHandler;
 
@@ -14,18 +16,20 @@ public class Application {
     public static void main(String[] args) throws Exception {
         BasicConfigurator.configure();
 
-        Server server = new Server(8080);
+        Server server = new Server(9000);
+
+        HadoopHelper hadoopHelper = new HadoopHelper();
+        HandlerHelper handlerHelper = new HandlerHelper();
 
         ContextHandler contextIndex = new ContextHandler("/");
-        contextIndex.setHandler(new IndexHandler());
+        contextIndex.setHandler(new IndexHandler(handlerHelper));
 
         ContextHandler contextStart = new ContextHandler("/start");
         contextStart.setAllowNullPathInfo(true);
-        contextStart.setHandler(new StartHandler());
+        contextStart.setHandler(new StartHandler(hadoopHelper, handlerHelper));
 
         ContextHandler contextGetResult = new ContextHandler("/getresult");
-        contextGetResult.setHandler(new GetResultHandler());
-
+        contextGetResult.setHandler(new GetResultHandler(hadoopHelper));
 
         ContextHandlerCollection contexts = new ContextHandlerCollection();
         contexts.setHandlers(new Handler[]{contextIndex, contextStart, contextGetResult});
@@ -35,31 +39,4 @@ public class Application {
         server.start();
         server.join();
     }
-
-//        Configuration conf = new Configuration();
-//
-//        Job job = Job.getInstance(conf);
-//
-//        job.setJarByClass(Application.class);
-//
-//        job.setPartitionerClass(MyPartitioner.class);
-//        job.setGroupingComparatorClass(MyGroupingComparator.class);
-//        job.setSortComparatorClass(MySortComparator.class);
-//
-//        job.setMapOutputKeyClass(StockKey.class);
-//        job.setMapOutputValueClass(IntWritable.class);
-//
-//        job.setOutputKeyClass(Text.class);
-//        job.setOutputValueClass(Text.class);
-//
-//        job.setInputFormatClass(TextInputFormat.class);
-//        job.setOutputFormatClass(TextOutputFormat.class);
-//
-//        job.setMapperClass(MyMapper.class);
-//        job.setReducerClass(MyReducer.class);
-//
-//        FileInputFormat.addInputPath(job, new Path("/user/vagrant/input/")); // existing HDFS directory
-//        FileOutputFormat.setOutputPath(job, new Path("/user/vagrant/output/" + System.currentTimeMillis() + "/")); // not existing HDFS directory
-//
-//        job.submit();
 }
