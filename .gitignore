@@ -5,3 +5,4 @@
 **/lists/*trusty*
 **/archives/*.deb
 !monitoring.tar
+*.jar
