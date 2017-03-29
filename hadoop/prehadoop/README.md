@@ -1,4 +1,4 @@
-# Task: prehadoop
+# Task: prehadoop (hadoop env)
 
 ### Content
 

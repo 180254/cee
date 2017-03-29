@@ -1,5 +1,4 @@
-# Task: hadoop
-## App: password-entropy
+# Task: hadoop (password-entropy app)
 
 ### Info
 General information:
