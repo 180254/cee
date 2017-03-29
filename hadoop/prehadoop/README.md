@@ -7,7 +7,7 @@
 | Vagrantfile | main config file |
 | **up.sh** | script to create and configure vms |
 | **destroy.sh** | script to destroy vms |
-| **app.sh** | script to deploy & run password-entropy app |
+| **app.sh** | script to compile, deploy and run password-entropy app | app is provided in ../hadoop/ dir |
 | shells/ | bash scripts to be provisioned to vms |
 | files/ | other files to be provisioned to vms |
 | files/archives/ | /var/cache/apt/archives/ backup | will speed up configuring, if is up to date |
@@ -19,6 +19,7 @@
 
 ### Requirements
 To be installed on host:
+- JDK 1.8
 - Vagrant (https://www.vagrantup.com/)
 - VirtualBox (https://www.virtualbox.org)
 - Vagrant plugin: vagrant-vbguest (vagrant plugin install vagrant-vbguest)
