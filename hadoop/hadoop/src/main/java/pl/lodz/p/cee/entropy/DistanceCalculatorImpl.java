@@ -7,10 +7,10 @@ public class DistanceCalculatorImpl implements DistanceCalculator {
 
     private final List<char[]> chars = Arrays.asList(
             "`~1234567890-=~!@#$%^&*()_+".toCharArray(),
-            "qwertyuiop[]{}".toCharArray(),
+            "\tqwertyuiop[]{}".toCharArray(),
             "asdfghjkl;'\\:|".toCharArray(),
             "\\zxcvbnm,./<>?".toCharArray(),
-            " \t".toCharArray()
+            " ".toCharArray()
     );
 
     // ---------------------------------------------------------------------------------------------------------------

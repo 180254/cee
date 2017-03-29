@@ -6,13 +6,14 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 
-public class SingleIntegerReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+public class SingleIntegerReducer extends Reducer<StockKey, IntWritable, Text, Text> {
 
     @Override
-    protected void reduce(Text key, Iterable<IntWritable> values, Context context)
+    protected void reduce(StockKey key, Iterable<IntWritable> values, Context context)
             throws IOException, InterruptedException {
 
-        IntWritable next = values.iterator().next();
-        context.write(key, next);
+        for (IntWritable value : values) {
+            context.write(new Text(key.getKey()), new Text(value.toString()));
+        }
     }
 }

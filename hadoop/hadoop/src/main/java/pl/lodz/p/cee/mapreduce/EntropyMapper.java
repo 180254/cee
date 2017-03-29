@@ -9,7 +9,7 @@ import pl.lodz.p.cee.entropy.EntropyCalculatorImpl;
 
 import java.io.IOException;
 
-public class EntropyMapper extends Mapper<Object, Text, Text, IntWritable> {
+public class EntropyMapper extends Mapper<Object, Text, StockKey, IntWritable> {
 
     private final EntropyCalculator ec = new EntropyCalculatorImpl(
             new DistanceCalculatorImpl()
@@ -19,7 +19,12 @@ public class EntropyMapper extends Mapper<Object, Text, Text, IntWritable> {
     protected void map(Object key, Text value, Context context)
             throws IOException, InterruptedException {
 
-        int entropy = ec.compute(value.toString());
-        context.write(value, new IntWritable(entropy));
+        String password = value.toString();
+        int entropy = ec.compute(password);
+
+        context.write(
+                new StockKey(password, entropy),
+                new IntWritable(entropy)
+        );
     }
 }
