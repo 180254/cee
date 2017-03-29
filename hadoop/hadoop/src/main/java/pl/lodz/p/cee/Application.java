@@ -1,47 +1,65 @@
 package pl.lodz.p.cee;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.Job;
-import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
-import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
-import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-
-import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
-import pl.lodz.p.cee.mapreduce.*;
-
-import java.io.IOException;
+import org.apache.log4j.BasicConfigurator;
+import org.eclipse.jetty.server.Handler;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.ContextHandler;
+import org.eclipse.jetty.server.handler.ContextHandlerCollection;
+import pl.lodz.p.cee.handler.GetResultHandler;
+import pl.lodz.p.cee.handler.IndexHandler;
+import pl.lodz.p.cee.handler.StartHandler;
 
 public class Application {
 
-    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-        Configuration conf = new Configuration();
+    public static void main(String[] args) throws Exception {
+        BasicConfigurator.configure();
 
-        Job job = Job.getInstance(conf);
+        Server server = new Server(8080);
 
-        job.setJarByClass(Application.class);
+        ContextHandler contextIndex = new ContextHandler("/");
+        contextIndex.setHandler(new IndexHandler());
 
-        job.setPartitionerClass(MyPartitioner.class);
-        job.setGroupingComparatorClass(MyGroupingComparator.class);
-        job.setSortComparatorClass(MySortComparator.class);
+        ContextHandler contextStart = new ContextHandler("/start");
+        contextStart.setAllowNullPathInfo(true);
+        contextStart.setHandler(new StartHandler());
 
-        job.setMapOutputKeyClass(StockKey.class);
-        job.setMapOutputValueClass(IntWritable.class);
+        ContextHandler contextGetResult = new ContextHandler("/getresult");
+        contextGetResult.setHandler(new GetResultHandler());
 
-        job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(Text.class);
 
-        job.setInputFormatClass(TextInputFormat.class);
-        job.setOutputFormatClass(TextOutputFormat.class);
+        ContextHandlerCollection contexts = new ContextHandlerCollection();
+        contexts.setHandlers(new Handler[]{contextIndex, contextStart, contextGetResult});
 
-        job.setMapperClass(MyMapper.class);
-        job.setReducerClass(MyReducer.class);
+        server.setHandler(contexts);
 
-        FileInputFormat.addInputPath(job, new Path("/user/vagrant/input/")); // existing HDFS directory
-        FileOutputFormat.setOutputPath(job, new Path("/user/vagrant/output/" + System.currentTimeMillis() +"/")); // not existing HDFS directory
-
-        job.submit();
+        server.start();
+        server.join();
     }
+
+//        Configuration conf = new Configuration();
+//
+//        Job job = Job.getInstance(conf);
+//
+//        job.setJarByClass(Application.class);
+//
+//        job.setPartitionerClass(MyPartitioner.class);
+//        job.setGroupingComparatorClass(MyGroupingComparator.class);
+//        job.setSortComparatorClass(MySortComparator.class);
+//
+//        job.setMapOutputKeyClass(StockKey.class);
+//        job.setMapOutputValueClass(IntWritable.class);
+//
+//        job.setOutputKeyClass(Text.class);
+//        job.setOutputValueClass(Text.class);
+//
+//        job.setInputFormatClass(TextInputFormat.class);
+//        job.setOutputFormatClass(TextOutputFormat.class);
+//
+//        job.setMapperClass(MyMapper.class);
+//        job.setReducerClass(MyReducer.class);
+//
+//        FileInputFormat.addInputPath(job, new Path("/user/vagrant/input/")); // existing HDFS directory
+//        FileOutputFormat.setOutputPath(job, new Path("/user/vagrant/output/" + System.currentTimeMillis() + "/")); // not existing HDFS directory
+//
+//        job.submit();
 }
