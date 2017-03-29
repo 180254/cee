@@ -14,7 +14,6 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-
 public class StartHandler extends AbstractHandler {
 
     private final HadoopHelper hadoopHelper;
@@ -42,7 +41,7 @@ public class StartHandler extends AbstractHandler {
             ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
 
             try (InputStream file = upload.parseRequest(request).get(0).getInputStream()) {
-                long taskId = hadoopHelper.startTask(file);
+                long taskId = hadoopHelper.submitEntropyTask(file);
                 resource = handlerHelper.resource("start-ok.html");
 
             } catch (Exception e) {

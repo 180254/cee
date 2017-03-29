@@ -12,7 +12,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Map;
 
-
 public class GetResultHandler extends AbstractHandler {
 
     private final HadoopHelper hadoopHelper;
@@ -30,7 +29,6 @@ public class GetResultHandler extends AbstractHandler {
         response.setStatus(HttpServletResponse.SC_OK);
 
         PrintWriter writer = response.getWriter();
-
         writer.write("========== TASK=" + hadoopHelper.currentTaskId + "\r\n");
 
         try {
@@ -43,8 +41,8 @@ public class GetResultHandler extends AbstractHandler {
                 if (!fileContent.isEmpty()) {
                     writer.write(fileContent + "\r\n");
                 }
-
             }
+
         } catch (Exception e) {
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);

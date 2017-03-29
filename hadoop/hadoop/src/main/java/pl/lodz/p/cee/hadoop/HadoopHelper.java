@@ -26,7 +26,7 @@ public class HadoopHelper {
 
     // ---------------------------------------------------------------------------------------------------------------
 
-    public long startTask(InputStream file) throws Exception {
+    public long submitEntropyTask(InputStream file) throws Exception {
         long taskId = System.currentTimeMillis();
 
         Configuration conf = newConfiguration();
