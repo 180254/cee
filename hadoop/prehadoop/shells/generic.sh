@@ -2,7 +2,7 @@
 
 echo "------- shell generic -------"
 
-find /home/vagrant -type f -print0 | xargs -0 dos2unix > /dev/null
+find /home/vagrant -type f -print0 | xargs -0 dos2unix 2> /dev/null
 
 cat /home/vagrant/system/bashrc  >> /home/vagrant/.bashrc
 rm  /home/vagrant/system/bashrc

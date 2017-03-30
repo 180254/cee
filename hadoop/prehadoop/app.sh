@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd "$(dirname -- "$0")"
+
 (cd  ../hadoop/ && ./mvnw clean package)
 cp ../hadoop/target/password-entropy-0.0.1-jar-with-dependencies.jar ./
 

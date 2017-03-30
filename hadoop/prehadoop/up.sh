@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd "$(dirname -- "$0")"
+
 main()
 {
     if [ ! -f files/resources/hadoop-2.6.4.tar.gz ]; then
