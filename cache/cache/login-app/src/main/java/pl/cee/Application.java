@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackageClasses = pl.cee.controller.LoginController.class)
 @ImportResource("classpath:config-ignite.xml")
 public class Application {
 
