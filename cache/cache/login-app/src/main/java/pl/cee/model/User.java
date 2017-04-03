@@ -2,14 +2,14 @@ package pl.cee.model;
 
 import java.io.Serializable;
 
-public class UserInfo implements Serializable {
+public class User implements Serializable {
 
     private String nickname;
 
-    public UserInfo() {
+    public User() {
     }
 
-    public UserInfo(String nickname) {
+    public User(String nickname) {
         this.nickname = nickname;
     }
 

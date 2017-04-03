@@ -7,22 +7,22 @@
 </head>
 <body>
 
-<div th:if="${reqState == 'fail'}">
-    Incorrect credentials!
-</div>
-
 <div th:if="${appState != null}">
-    Welcome, <span th:text="${appState.userInfo.nickname}"></span>.<br/>
-    <a href="/logout">Logout from application.</a>
+    Welcome, <span th:text="${appState.user.nickname}"></span>.<br/>
+    <a href="/logout">Logout from the application.</a>
 </div>
 
 <div th:if="${appState == null}">
-    Welcome, Guest<br/>
+    Welcome, Guest.<br/>
     <form action="/login" method="post">
         <label for="username">Login: </label><input type="text" id="username" name="username"/><br/>
         <label for="password">Password: </label><input type="text" id="password" name="password"/><br/>
-        <input type="submit" value="Lets log in to application"/>
+        <input type="submit" value="Let's log in to the application."/>
     </form>
+</div>
+
+<div th:if="${reqState == 'fail'}">
+    Incorrect credentials were given!
 </div>
 
 </body>

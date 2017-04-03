@@ -11,7 +11,7 @@
         <property name="cacheConfiguration">
             <list>
                 <bean class="org.apache.ignite.configuration.CacheConfiguration">
-                    <property name="name" value="someCache"/>
+                    <property name="name" value="sessionCache"/>
                     <property name="cacheMode" value="REPLICATED"/>
                 </bean>
             </list>

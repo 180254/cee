@@ -34,8 +34,12 @@ public class Credentials implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Credentials that = (Credentials) o;
         return Objects.equals(username, that.username) &&
                 Objects.equals(password, that.password);

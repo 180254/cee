@@ -7,8 +7,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
+import pl.cee.controller.LoginController;
+import pl.cee.service.SessionIdGenerator;
+import pl.cee.service.SessionIdGeneratorImpl;
 
-@SpringBootApplication(scanBasePackageClasses = pl.cee.controller.LoginController.class)
+import java.security.SecureRandom;
+import java.util.Random;
+
+@SpringBootApplication()
 @ImportResource("classpath:config-ignite.xml")
 public class Application {
 
@@ -18,7 +24,22 @@ public class Application {
     }
 
     @Bean
-    public Ignite ignite(IgniteConfiguration igniteConfiguration) {
-        return Ignition.start(igniteConfiguration);
+    public Ignite ignite(IgniteConfiguration ic) {
+        return Ignition.start(ic);
+    }
+
+    @Bean
+    public LoginController loginController(Ignite ignite, SessionIdGenerator sig) {
+        return new LoginController(ignite, sig);
+    }
+
+    @Bean
+    public SessionIdGenerator sessionIdGenerator(Random random) {
+        return new SessionIdGeneratorImpl(random);
+    }
+
+    @Bean
+    public Random random() {
+        return new SecureRandom();
     }
 }
