@@ -13,6 +13,8 @@
                 <bean class="org.apache.ignite.configuration.CacheConfiguration">
                     <property name="name" value="sessionCache"/>
                     <property name="cacheMode" value="REPLICATED"/>
+                    <property name="memoryMode" value="OFFHEAP_TIERED"/>
+                    <property name="offHeapMaxMemory" value="0"/>
                 </bean>
             </list>
         </property>
