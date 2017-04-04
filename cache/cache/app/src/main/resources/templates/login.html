@@ -9,9 +9,7 @@
 </head>
 <body>
 
-<div>
-    Apache Ignite node: <span th:text="${selfAddress}"></span>
-</div>
+<pre>Node: <span th:text="${selfAddress}"></span><br/></pre>
 
 <div th:if="${appState != null}">
     Welcome, <span th:text="${appState.user.nickname}"></span>.<br/>

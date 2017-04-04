@@ -1,20 +1,20 @@
-# Task: cache [ignite-web-session-clustering]
+# Task: cache [ignite env, login-app, web-session-clustering]
 
 ### Content
-
 | Path | Purpose | Comment |
 | ------ | ------ | ------ |
-| Vagrantfile | main config file |
+| Vagrantfile | vagrant config file |
 | **up.sh** | script to create and configure vms |
 | **destroy.sh** | script to destroy vms |
-| **app.sh** | script to compile, deploy and run login-app | app is provided in app dir  |
+| **app.sh** | script to compile, deploy and run login-app | |
+| **app/** | login-app java application |
 | shells/ | bash scripts to be provisioned to vms |
 | files/ | other files to be provisioned to vms |
 | files/archives/ | /var/cache/apt/archives/ backup | will speed up configuring, if is up to date |
 | files/lists/ | /var/lib/apt/lists/ backup | will speed up configuring, if is up to date |
-| files/resources/ | other cache resources, supported files: apache-ignite-fabric-1.9.0-bin.zip | will speed up configuring, if file is available
+| files/resources/ | other cache resources, supported files: apache-ignite-fabric-1.9.0-bin.zip | will speed up configuring, if file is available |
 | files/nginx/default | nginx load balancer configuration file |
-| app/src/main/resources/config-ignite.xml | ignite node configuration file
+| **app/src/main/resources/config-ignite.xml** | ignite node configuration file |
 
 ### Requirements
 To be installed on host:
@@ -25,11 +25,11 @@ To be installed on host:
 
 ### VM boxes
 hostname=ignite1
-- 192.168.6.10:9000 - login-app instanc
-- 192.168.6.10:9001 - login-app instance
 - 192.168.6.10:9000 - login-app instance
+- 192.168.6.10:9001 - login-app instance
 
 hostname=ignite2
+- 192.168.6.11:9000 - login-app instance
 - 192.168.6.11:none - ignite instance
 - 192.168.6.11:80 - load balancer entry point
 

@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.cee.model.Credentials;
 import pl.cee.model.State;
 import pl.cee.model.User;
+import pl.cee.service.AccountsProvider;
 import pl.cee.service.SelfAddressProvider;
 import pl.cee.service.SessionIdGenerator;
 
@@ -19,32 +20,26 @@ import javax.cache.expiry.Duration;
 import javax.cache.expiry.ExpiryPolicy;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
 
 @RequestMapping("/")
 public class LoginController {
 
     private static final String SESSION_COOKIE_NAME = "cee.session.id";
-    private static final int SESSION_EXPIRE_MINUTES = 5;
+    private static final int SESSION_EXPIRE_MINUTES = 10;
 
     private final IgniteCache<String, State> cache;
+    private final AccountsProvider accountsProvider;
     private final SessionIdGenerator sessionIdGenerator;
     private final SelfAddressProvider selfAddressProvider;
-    private final Map<Credentials, User> accounts;
 
-    public LoginController(Ignite ignite, SessionIdGenerator sid, SelfAddressProvider sap) {
+    public LoginController(Ignite ignite, AccountsProvider ap, SessionIdGenerator sid, SelfAddressProvider sap) {
         ExpiryPolicy expiryPolicy = new CreatedExpiryPolicy(new Duration(TimeUnit.MINUTES, SESSION_EXPIRE_MINUTES));
         this.cache = ignite.<String, State>cache("sessionCache").withExpiryPolicy(expiryPolicy);
+
+        this.accountsProvider = ap;
         this.sessionIdGenerator = sid;
         this.selfAddressProvider = sap;
-
-        this.accounts = new HashMap<>(3);
-        this.accounts.put(new Credentials("admin", "admin"), new User("administrator"));
-        this.accounts.put(new Credentials("student", "student"), new User("student"));
-        this.accounts.put(new Credentials("mr", "bean"), new User("Mr. Bean"));
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -56,8 +51,10 @@ public class LoginController {
     public String loginGet(@CookieValue(value = SESSION_COOKIE_NAME, defaultValue = "") String sessionId,
                            Model model) {
         State appState = cache.get(sessionId);
+        String selfAddress = selfAddressProvider.getSelfAddress();
+
         model.addAttribute("appState", appState);
-        model.addAttribute("selfAddress", selfAddressProvider.get());
+        model.addAttribute("selfAddress", selfAddress);
         return "login";
     }
 
@@ -65,23 +62,27 @@ public class LoginController {
     public String loginPost(@ModelAttribute Credentials credentials,
                             HttpServletResponse response,
                             RedirectAttributes redirectAttributes) {
-        User user = accounts.get(credentials);
+        User user = accountsProvider.getUser(credentials);
 
         if (user != null) {
             String sessionId = sessionIdGenerator.nextSessionId();
             State appState = new State(user);
             cache.put(sessionId, appState);
             response.addCookie(new Cookie(SESSION_COOKIE_NAME, sessionId));
-            return "redirect:/login";
 
         } else {
             redirectAttributes.addFlashAttribute("reqState", "fail");
-            return "redirect:/login";
         }
+
+        return "redirect:/login";
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logoutGet(@CookieValue(value = SESSION_COOKIE_NAME, defaultValue = "") String sessionId) {
+    public String logoutGet(@CookieValue(value = SESSION_COOKIE_NAME, defaultValue = "") String sessionId,
+                            HttpServletResponse response) {
+        Cookie cookie = new Cookie(SESSION_COOKIE_NAME, "");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
         cache.remove(sessionId);
         return "redirect:/login";
     }

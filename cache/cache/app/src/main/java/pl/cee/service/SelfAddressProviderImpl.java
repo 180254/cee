@@ -17,21 +17,26 @@ public class SelfAddressProviderImpl implements SelfAddressProvider {
         Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
         while (networkInterfaces.hasMoreElements()) {
             NetworkInterface networkInterface = networkInterfaces.nextElement();
+
             for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
                 InetAddress address = interfaceAddress.getAddress();
-                if (address instanceof Inet4Address) {
 
-                    selfAddress.append(address).append(":").append(serverPort).append(";");
+                if (address instanceof Inet4Address) {
+                    if (selfAddress.length() != 0) {
+                        selfAddress.append("; ");
+                    }
+
+                    String hostAddress = address.getHostAddress();
+                    selfAddress.append(hostAddress).append(":").append(serverPort);
                 }
             }
         }
 
         this.selfAddress = selfAddress.toString();
-
     }
 
     @Override
-    public String get() {
+    public String getSelfAddress() {
         return selfAddress;
     }
 }

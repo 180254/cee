@@ -9,10 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.core.env.Environment;
 import pl.cee.controller.LoginController;
-import pl.cee.service.SelfAddressProvider;
-import pl.cee.service.SelfAddressProviderImpl;
-import pl.cee.service.SessionIdGenerator;
-import pl.cee.service.SessionIdGeneratorImpl;
+import pl.cee.service.*;
 
 import java.net.SocketException;
 import java.security.SecureRandom;
@@ -33,8 +30,16 @@ public class Application {
     }
 
     @Bean
-    public LoginController loginController(Ignite ignite, SessionIdGenerator sig, SelfAddressProvider sap) {
-        return new LoginController(ignite, sig, sap);
+    public LoginController loginController(Ignite ignite,
+                                           AccountsProvider ap,
+                                           SessionIdGenerator sig,
+                                           SelfAddressProvider sap) {
+        return new LoginController(ignite, ap, sig, sap);
+    }
+
+    @Bean
+    public AccountsProvider accountsProvider() {
+        return new AccountsProviderImpl();
     }
 
     @Bean

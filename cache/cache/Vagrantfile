@@ -28,10 +28,10 @@ boxes = [
         :mem  => "1024",
         :cpu  => "1",
         :files => [
-            { :src => "files/lists/",     :dst => "/home/vagrant/" },
-            { :src => "files/archives/",  :dst => "/home/vagrant/" },
-            { :src => "files/resources/", :dst => "/home/vagrant/" },
-            { :src => "files/nginx/", :dst => "/home/vagrant/" },
+            { :src => "files/lists/",                             :dst => "/home/vagrant/" },
+            { :src => "files/archives/",                          :dst => "/home/vagrant/" },
+            { :src => "files/resources/",                         :dst => "/home/vagrant/" },
+            { :src => "files/nginx/",                             :dst => "/home/vagrant/" },
             { :src => "app/src/main/resources/config-ignite.xml", :dst => "/home/vagrant/config-ignite.xml" },
         ],
         :shells => [
