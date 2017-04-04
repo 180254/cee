@@ -6,14 +6,34 @@ boxes = [
         :name => "ignite1",
         :box  => "ubuntu/trusty64",
         :eth1 => "192.168.6.10",
-        :mem  => "1536",
-        :cpu  => "2",
+        :mem  => "1024",
+        :cpu  => "1",
+        :files => [
+            { :src => "v-files/lists/",     :dst => "/home/vagrant/" },
+            { :src => "v-files/archives/",  :dst => "/home/vagrant/" },
+            { :src => "v-files/resources/", :dst => "/home/vagrant/" },
+        ],
+        :shells => [
+            "v-shells/aptupdate.sh",
+            "v-shells/apt.sh",
+            "v-shells/generic.sh",
+            "v-shells/getignite.sh",
+            "v-shells/done.sh",
+        ],
+        :ports_forward => [
+        ]
+    },
+    {
+        :name => "ignite2",
+        :box  => "ubuntu/trusty64",
+        :eth1 => "192.168.6.11",
+        :mem  => "1024",
+        :cpu  => "1",
         :files => [
         ],
         :shells => [
         ],
         :ports_forward => [
-
         ]
     },
 ]

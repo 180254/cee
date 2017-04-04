@@ -6,3 +6,4 @@
 **/archives/*.deb
 !monitoring.tar
 *.jar
+*.zip
