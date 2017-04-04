@@ -2,6 +2,8 @@
 
 echo "------- shell getignite -------"
 
+apt-get install -y unzip
+
 rm -rf /usr/local/ignite
 
 if [ -f /home/vagrant/resources/apache-ignite-fabric-1.9.0-bin.zip ]; then

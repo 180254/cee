@@ -31,6 +31,7 @@ boxes = [
             { :src => "files/lists/",     :dst => "/home/vagrant/" },
             { :src => "files/archives/",  :dst => "/home/vagrant/" },
             { :src => "files/resources/", :dst => "/home/vagrant/" },
+            { :src => "files/nginx/", :dst => "/home/vagrant/" },
             { :src => "app/src/main/resources/config-ignite.xml", :dst => "/home/vagrant/config-ignite.xml" },
         ],
         :shells => [
@@ -38,6 +39,7 @@ boxes = [
             "shells/apt.sh",
             "shells/generic.sh",
             "shells/getignite.sh",
+            "shells/getnginx.sh",
             "shells/done.sh",
         ],
         :ports_forward => [
