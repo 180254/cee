@@ -1,6 +1,5 @@
 package pl.cee.controller;
 
-import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -15,31 +14,27 @@ import pl.cee.service.AccountsProvider;
 import pl.cee.service.SelfAddressProvider;
 import pl.cee.service.SessionIdGenerator;
 
-import javax.cache.expiry.CreatedExpiryPolicy;
-import javax.cache.expiry.Duration;
-import javax.cache.expiry.ExpiryPolicy;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import java.util.concurrent.TimeUnit;
 
 @RequestMapping("/")
 public class LoginController {
 
     private static final String SESSION_COOKIE_NAME = "cee.session.id";
-    private static final int SESSION_EXPIRE_MINUTES = 10;
 
     private final IgniteCache<String, State> cache;
     private final AccountsProvider accountsProvider;
     private final SessionIdGenerator sessionIdGenerator;
     private final SelfAddressProvider selfAddressProvider;
 
-    public LoginController(Ignite ignite, AccountsProvider ap, SessionIdGenerator sid, SelfAddressProvider sap) {
-        ExpiryPolicy expiryPolicy = new CreatedExpiryPolicy(new Duration(TimeUnit.MINUTES, SESSION_EXPIRE_MINUTES));
-        this.cache = ignite.<String, State>cache("sessionCache").withExpiryPolicy(expiryPolicy);
-
-        this.accountsProvider = ap;
-        this.sessionIdGenerator = sid;
-        this.selfAddressProvider = sap;
+    public LoginController(IgniteCache<String, State> cache,
+                           AccountsProvider accountsProvider,
+                           SessionIdGenerator sessionIdGenerator,
+                           SelfAddressProvider selfAddressProvider) {
+        this.cache = cache;
+        this.accountsProvider = accountsProvider;
+        this.sessionIdGenerator = sessionIdGenerator;
+        this.selfAddressProvider = selfAddressProvider;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)

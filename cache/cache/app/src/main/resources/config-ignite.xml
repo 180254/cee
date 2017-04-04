@@ -11,7 +11,14 @@
         <property name="cacheConfiguration">
             <list>
                 <bean class="org.apache.ignite.configuration.CacheConfiguration">
-                    <property name="name" value="sessionCache"/>
+                    <property name="name" value="appSessionCache"/>
+                    <property name="cacheMode" value="REPLICATED"/>
+                    <property name="memoryMode" value="OFFHEAP_TIERED"/>
+                    <property name="offHeapMaxMemory" value="0"/>
+                </bean>
+
+                <bean class="org.apache.ignite.configuration.CacheConfiguration">
+                    <property name="name" value="springSessionCache"/>
                     <property name="cacheMode" value="REPLICATED"/>
                     <property name="memoryMode" value="OFFHEAP_TIERED"/>
                     <property name="offHeapMaxMemory" value="0"/>
