@@ -9,16 +9,14 @@ boxes = [
         :mem  => "1024",
         :cpu  => "1",
         :files => [
-            { :src => "v-files/lists/",     :dst => "/home/vagrant/" },
-            { :src => "v-files/archives/",  :dst => "/home/vagrant/" },
-            { :src => "v-files/resources/", :dst => "/home/vagrant/" },
+            { :src => "files/lists/",     :dst => "/home/vagrant/" },
+            { :src => "files/archives/",  :dst => "/home/vagrant/" },
         ],
         :shells => [
-            "v-shells/aptupdate.sh",
-            "v-shells/apt.sh",
-            "v-shells/generic.sh",
-            "v-shells/getignite.sh",
-            "v-shells/done.sh",
+            "shells/aptupdate.sh",
+            "shells/apt.sh",
+            "shells/generic.sh",
+            "shells/done.sh",
         ],
         :ports_forward => [
         ]
@@ -30,8 +28,17 @@ boxes = [
         :mem  => "1024",
         :cpu  => "1",
         :files => [
+            { :src => "files/lists/",     :dst => "/home/vagrant/" },
+            { :src => "files/archives/",  :dst => "/home/vagrant/" },
+            { :src => "files/resources/", :dst => "/home/vagrant/" },
+            { :src => "app/src/main/resources/config-ignite.xml", :dst => "/home/vagrant/config-ignite.xml" },
         ],
         :shells => [
+            "shells/aptupdate.sh",
+            "shells/apt.sh",
+            "shells/generic.sh",
+            "shells/getignite.sh",
+            "shells/done.sh",
         ],
         :ports_forward => [
         ]

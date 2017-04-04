@@ -9,8 +9,7 @@ if [ ! -f files/resources/apache-ignite-fabric-1.9.0-bin.zip ]; then
 vagrant up
 
 if [ $? -eq 0 ]; then
-   # vagrant ssh hadoop-master -c " /usr/local/hadoop/bin/hdfs namenode -format"
-
+    echo "$0 ok, code: $?, you may start app.sh"
 else
     echo "$0 failed, code: $?"
     exit $?
