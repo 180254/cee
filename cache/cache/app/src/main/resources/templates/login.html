@@ -9,6 +9,10 @@
 </head>
 <body>
 
+<div>
+    Apache Ignite node: <span th:text="${selfAddress}"></span>
+</div>
+
 <div th:if="${appState != null}">
     Welcome, <span th:text="${appState.user.nickname}"></span>.<br/>
     <a href="/logout">Logout.</a>

@@ -7,10 +7,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.core.env.Environment;
 import pl.cee.controller.LoginController;
+import pl.cee.service.SelfAddressProvider;
+import pl.cee.service.SelfAddressProviderImpl;
 import pl.cee.service.SessionIdGenerator;
 import pl.cee.service.SessionIdGeneratorImpl;
 
+import java.net.SocketException;
 import java.security.SecureRandom;
 import java.util.Random;
 
@@ -29,13 +33,18 @@ public class Application {
     }
 
     @Bean
-    public LoginController loginController(Ignite ignite, SessionIdGenerator sig) {
-        return new LoginController(ignite, sig);
+    public LoginController loginController(Ignite ignite, SessionIdGenerator sig, SelfAddressProvider sap) {
+        return new LoginController(ignite, sig, sap);
     }
 
     @Bean
     public SessionIdGenerator sessionIdGenerator(Random random) {
         return new SessionIdGeneratorImpl(random);
+    }
+
+    @Bean
+    public SelfAddressProvider selfAddressProvider(Environment environment) throws SocketException {
+        return new SelfAddressProviderImpl(environment);
     }
 
     @Bean

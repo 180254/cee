@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.cee.model.Credentials;
 import pl.cee.model.State;
 import pl.cee.model.User;
+import pl.cee.service.SelfAddressProvider;
 import pl.cee.service.SessionIdGenerator;
 
 import javax.cache.expiry.CreatedExpiryPolicy;
@@ -31,12 +32,14 @@ public class LoginController {
 
     private final IgniteCache<String, State> cache;
     private final SessionIdGenerator sessionIdGenerator;
+    private final SelfAddressProvider selfAddressProvider;
     private final Map<Credentials, User> accounts;
 
-    public LoginController(Ignite ignite, SessionIdGenerator sessionIdGenerator) {
+    public LoginController(Ignite ignite, SessionIdGenerator sid, SelfAddressProvider sap) {
         ExpiryPolicy expiryPolicy = new CreatedExpiryPolicy(new Duration(TimeUnit.MINUTES, SESSION_EXPIRE_MINUTES));
         this.cache = ignite.<String, State>cache("sessionCache").withExpiryPolicy(expiryPolicy);
-        this.sessionIdGenerator = sessionIdGenerator;
+        this.sessionIdGenerator = sid;
+        this.selfAddressProvider = sap;
 
         this.accounts = new HashMap<>(3);
         this.accounts.put(new Credentials("admin", "admin"), new User("administrator"));
@@ -54,6 +57,7 @@ public class LoginController {
                            Model model) {
         State appState = cache.get(sessionId);
         model.addAttribute("appState", appState);
+        model.addAttribute("selfAddress", selfAddressProvider.get());
         return "login";
     }
 
