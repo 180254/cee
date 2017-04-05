@@ -14,17 +14,15 @@ import org.springframework.session.MapSessionRepository;
 import org.springframework.session.SessionRepository;
 import org.springframework.session.config.annotation.web.http.EnableSpringHttpSession;
 import pl.cee.controller.LoginController;
-import pl.cee.model.State;
-import pl.cee.service.*;
+import pl.cee.service.AccountsProvider;
+import pl.cee.service.AccountsProviderImpl;
+import pl.cee.service.SelfAddressProvider;
+import pl.cee.service.SelfAddressProviderImpl;
 import pl.cee.util.IgniteCacheMapView;
 
-import javax.cache.expiry.CreatedExpiryPolicy;
-import javax.cache.expiry.Duration;
-import javax.cache.expiry.ExpiryPolicy;
 import java.net.SocketException;
 import java.security.SecureRandom;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication()
 @ImportResource("classpath:config-ignite.xml")
@@ -42,26 +40,14 @@ public class Application {
     }
 
     @Bean
-    public LoginController loginController(Ignite ignite,
-                                           AccountsProvider accountsProvider,
-                                           SessionIdGenerator sessionIdGenerator,
+    public LoginController loginController(AccountsProvider accountsProvider,
                                            SelfAddressProvider selfAddressProvider) {
-        IgniteCache<String, State> cache = ignite.cache("appSessionCache");
-
-        ExpiryPolicy expiryPolicy = new CreatedExpiryPolicy(new Duration(TimeUnit.MINUTES, 10));
-        IgniteCache<String, State> expiringCache = cache.withExpiryPolicy(expiryPolicy);
-
-        return new LoginController(expiringCache, accountsProvider, sessionIdGenerator, selfAddressProvider);
+        return new LoginController(accountsProvider, selfAddressProvider);
     }
 
     @Bean
     public AccountsProvider accountsProvider() {
         return new AccountsProviderImpl();
-    }
-
-    @Bean
-    public SessionIdGenerator sessionIdGenerator(Random random) {
-        return new SessionIdGeneratorImpl(random);
     }
 
     @Bean
@@ -76,7 +62,7 @@ public class Application {
 
     @Bean
     public SessionRepository sessionRepository(Ignite ignite) {
-        IgniteCache<String, ExpiringSession> igSsc = ignite.cache("springSessionCache");
+        IgniteCache<String, ExpiringSession> igSsc = ignite.cache("someCache");
         IgniteCacheMapView<String, ExpiringSession> igSscMapView = new IgniteCacheMapView<>(igSsc);
         return new MapSessionRepository(igSscMapView);
     }

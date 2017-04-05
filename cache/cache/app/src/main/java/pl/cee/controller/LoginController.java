@@ -1,8 +1,6 @@
 package pl.cee.controller;
 
-import org.apache.ignite.IgniteCache;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,28 +10,18 @@ import pl.cee.model.State;
 import pl.cee.model.User;
 import pl.cee.service.AccountsProvider;
 import pl.cee.service.SelfAddressProvider;
-import pl.cee.service.SessionIdGenerator;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 @RequestMapping("/")
 public class LoginController {
 
-    private static final String SESSION_COOKIE_NAME = "cee.session.id";
-
-    private final IgniteCache<String, State> cache;
     private final AccountsProvider accountsProvider;
-    private final SessionIdGenerator sessionIdGenerator;
     private final SelfAddressProvider selfAddressProvider;
 
-    public LoginController(IgniteCache<String, State> cache,
-                           AccountsProvider accountsProvider,
-                           SessionIdGenerator sessionIdGenerator,
+    public LoginController(AccountsProvider accountsProvider,
                            SelfAddressProvider selfAddressProvider) {
-        this.cache = cache;
         this.accountsProvider = accountsProvider;
-        this.sessionIdGenerator = sessionIdGenerator;
         this.selfAddressProvider = selfAddressProvider;
     }
 
@@ -43,9 +31,9 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginGet(@CookieValue(value = SESSION_COOKIE_NAME, defaultValue = "") String sessionId,
+    public String loginGet(HttpServletRequest request,
                            Model model) {
-        State appState = cache.get(sessionId);
+        State appState = (State) request.getSession().getAttribute("appState");
         String selfAddress = selfAddressProvider.getSelfAddress();
 
         model.addAttribute("appState", appState);
@@ -55,15 +43,13 @@ public class LoginController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String loginPost(@ModelAttribute Credentials credentials,
-                            HttpServletResponse response,
+                            HttpServletRequest request,
                             RedirectAttributes redirectAttributes) {
         User user = accountsProvider.getUser(credentials);
 
         if (user != null) {
-            String sessionId = sessionIdGenerator.nextSessionId();
-            State appState = new State(user);
-            cache.put(sessionId, appState);
-            response.addCookie(new Cookie(SESSION_COOKIE_NAME, sessionId));
+            State state = new State(user);
+            request.getSession().setAttribute("state", state);
 
         } else {
             redirectAttributes.addFlashAttribute("reqState", "fail");
@@ -73,12 +59,8 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logoutGet(@CookieValue(value = SESSION_COOKIE_NAME, defaultValue = "") String sessionId,
-                            HttpServletResponse response) {
-        Cookie cookie = new Cookie(SESSION_COOKIE_NAME, "");
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
-        cache.remove(sessionId);
+    public String logoutGet(HttpServletRequest request) {
+        request.getSession().removeAttribute("state");
         return "redirect:/login";
     }
 }

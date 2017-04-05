@@ -22,12 +22,8 @@ public class SelfAddressProviderImpl implements SelfAddressProvider {
                 InetAddress address = interfaceAddress.getAddress();
 
                 if (address instanceof Inet4Address) {
-                    if (selfAddress.length() != 0) {
-                        selfAddress.append("; ");
-                    }
-
                     String hostAddress = address.getHostAddress();
-                    selfAddress.append(hostAddress).append(":").append(serverPort);
+                    selfAddress.append(hostAddress).append(":").append(serverPort).append("; ");
                 }
             }
         }
