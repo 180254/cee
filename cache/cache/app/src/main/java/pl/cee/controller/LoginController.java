@@ -48,8 +48,8 @@ public class LoginController {
         User user = accountsProvider.getUser(credentials);
 
         if (user != null) {
-            State state = new State(user);
-            request.getSession().setAttribute("state", state);
+            State appState = new State(user);
+            request.getSession().setAttribute("appState", appState);
 
         } else {
             redirectAttributes.addFlashAttribute("reqState", "fail");
@@ -60,7 +60,7 @@ public class LoginController {
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logoutGet(HttpServletRequest request) {
-        request.getSession().removeAttribute("state");
+        request.getSession().removeAttribute("appState");
         return "redirect:/login";
     }
 }

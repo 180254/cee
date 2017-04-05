@@ -1,7 +1,7 @@
 upstream myapp1 {
     server 192.168.6.10:9000;
     server 192.168.6.10:9001;
-    server 192.168.6.11:9000;
+    server 192.168.6.11:9002;
 }
 
 server {
