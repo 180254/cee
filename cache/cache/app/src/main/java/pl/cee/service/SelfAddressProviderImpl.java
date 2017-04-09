@@ -10,10 +10,9 @@ public class SelfAddressProviderImpl implements SelfAddressProvider {
     private final String selfAddress;
 
     public SelfAddressProviderImpl(Environment env) throws SocketException {
-        StringBuilder selfAddress = new StringBuilder(100);
+        StringBuilder selfAddress = new StringBuilder(256);
 
-        String serverPort = env.getProperty("server.port");
-
+        String serverPort = env.getProperty("server.port", "8080");
         Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
         while (networkInterfaces.hasMoreElements()) {
             NetworkInterface networkInterface = networkInterfaces.nextElement();
@@ -28,7 +27,7 @@ public class SelfAddressProviderImpl implements SelfAddressProvider {
             }
         }
 
-        this.selfAddress = selfAddress.toString();
+        this.selfAddress = selfAddress.toString().trim();
     }
 
     @Override

@@ -1,9 +1,10 @@
 package pl.cee.controller;
 
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.cee.model.Credentials;
 import pl.cee.model.State;
@@ -25,12 +26,8 @@ public class LoginController {
         this.selfAddressProvider = selfAddressProvider;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String homeGet() {
-        return "redirect:/login";
-    }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @GetMapping("/login")
     public String loginGet(HttpServletRequest request,
                            Model model) {
         State appState = (State) request.getSession().getAttribute("appState");
@@ -41,7 +38,7 @@ public class LoginController {
         return "login";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @PostMapping("/login")
     public String loginPost(@ModelAttribute Credentials credentials,
                             HttpServletRequest request,
                             RedirectAttributes redirectAttributes) {
@@ -58,7 +55,7 @@ public class LoginController {
         return "redirect:/login";
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @GetMapping("/logout")
     public String logoutGet(HttpServletRequest request) {
         request.getSession().removeAttribute("appState");
         return "redirect:/login";

@@ -8,6 +8,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
+import pl.cee.controller.HomeController;
 import pl.cee.controller.LoginController;
 import pl.cee.service.AccountsProvider;
 import pl.cee.service.AccountsProviderImpl;
@@ -23,6 +24,11 @@ public class Application {
     public static void main(String[] args) {
         System.setProperty("IGNITE_QUIET", "false");
         SpringApplication.run(Application.class, args);
+    }
+
+    @Bean
+    public HomeController homeController() {
+        return new HomeController();
     }
 
     @Bean
