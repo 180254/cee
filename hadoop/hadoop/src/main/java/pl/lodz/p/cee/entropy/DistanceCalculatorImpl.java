@@ -17,8 +17,8 @@ public class DistanceCalculatorImpl implements DistanceCalculator {
 
     @Override
     public double distance(char a, char b) {
-        Point p1 = pos(a);
-        Point p2 = pos(b);
+        Point p1 = pos(Character.toLowerCase(a));
+        Point p2 = pos(Character.toLowerCase(b));
         return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
     }
 
@@ -33,7 +33,7 @@ public class DistanceCalculatorImpl implements DistanceCalculator {
             }
         }
 
-        return new Point(0, 0);
+        return new Point(c % 4, c % 16);
     }
 
     // ---------------------------------------------------------------------------------------------------------------
